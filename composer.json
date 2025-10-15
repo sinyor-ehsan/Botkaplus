@@ -26,11 +26,12 @@
   },
   "repositories": [
     {
-      "type": "vcs",
-      "url": "https://github.com/sinyor-ehsan/Botkaplus"
+        "type": "vcs",
+        "url": "https://github.com/sinyor-ehsan/Botkaplus"
     }
-  ],
+    ],
+    "require": {
+    "sinyor-ehsan/botkaplus": "dev-main"
+    },
   "minimum-stability": "stable"
 }
-
-
