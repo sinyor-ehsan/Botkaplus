@@ -7,9 +7,9 @@ Botkaplus Library for rubika bots.
   <img align="center" width="200" height="200" src="https://rubika.ir/static/images/logo.svg"/>
 Botkaplus Library for rubika bots.
 
-# 📦 نصب و راه‌اندازی
+# 📦 نصب و راه‌ اندازی
 
-نیازمندی‌ها
+نیازمندی‌ ها
 
 · PHP 7.4 یا بالاتر
 · فعال بودن extension curl
