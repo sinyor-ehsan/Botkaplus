@@ -1,5 +1,5 @@
 {
-    "name": "botkaplus/botkaplus",
+    "name": "sinyor-ehsan/botkaplus",
     "description": "Botkaplus Library for rubika bots",
     "type": "library",
     "keywords": ["rubika", "bot", "api", "php", "rubikabot"],
@@ -25,3 +25,4 @@
     },
     "minimum-stability": "stable"
 }
+
