@@ -20,10 +20,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Botkaplus\\": "src/"
+            "Botkaplus\\": "Botkaplus/"
         }
     },
     "minimum-stability": "stable"
 }
+
 
 
