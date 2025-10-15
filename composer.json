@@ -1,0 +1,27 @@
+{
+    "name": "rubikabot/rubikabot",
+    "description": "Botkaplus Library for rubika bots",
+    "type": "library",
+    "keywords": ["rubika", "bot", "api", "php", "rubikabot"],
+    "homepage": "https://github.com/sinyor-ehsan/Botkaplus",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sinyor Ehsan",
+            "email": "Botkaplus@gmail.com",
+            "homepage": "https://github.com/sinyor-ehsan",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Botkaplus\\": "Botkaplus/"
+        }
+    },
+    "minimum-stability": "stable"
+}
