@@ -1,35 +1,30 @@
 {
-  "name": "sinyorehsan/botkaplus",
-  "description": "Botkaplus: A PHP library for building Rubika bots easily and efficiently.",
-  "version": "1.0.0",
-  "type": "library",
-  "keywords": ["rubika", "bot", "api", "php", "rubikabot", "botkaplus", "rubika-bot"],
-  "homepage": "https://github.com/sinyor-ehsan/Botkaplus",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Sinyor Ehsan",
-      "email": "Botkaplus@gmail.com",
-      "homepage": "https://github.com/sinyor-ehsan",
-      "role": "Developer"
-    }
-  ],
-  "support": {
-    "issues": "https://github.com/sinyor-ehsan/Botkaplus/issues",
-    "source": "https://github.com/sinyor-ehsan/Botkaplus"
-  },
-  "require": {
-    "php": "^7.4 || ^8.0",
-    "ext-curl": "*",
-    "ext-json": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "Botkaplus\\": "Botkaplus/"
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "name": "sinyorehsan/botkaplus",
+    "description": "Botkaplus Library for rubika bots",
+    "type": "library",
+    "keywords": ["rubika", "bot", "api", "php", "rubikabot"],
+    "homepage": "https://github.com/sinyor-ehsan/Botkaplus",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sinyor Ehsan",
+            "email": "Botkaplus@gmail.com",
+            "homepage": "https://github.com/sinyor-ehsan",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Botkaplus\\": "Botkaplus/"
+        }
+    },
+    "minimum-stability": "stable"
 }
+
 
 
