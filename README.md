@@ -12,14 +12,14 @@ Botkaplus Library for rubika bots.
 نیازمندی‌ ها
 
 · PHP 7.4 یا بالاتر
-· فعال بودن extension curl
+· فعال بودن curl
 · توکن ربات روبیکا
 
 # نصب
 
 ```php
 // شامل کردن فایل‌های کتابخانه
-composer require 
+composer require sinyor-ehsan/botkaplus:dev-main
 ```
 
 # شروع
