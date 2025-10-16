@@ -1,4 +1,4 @@
-# Botkaplus
+Botkaplus
 Botkaplus Library for rubika bots.
 
 
@@ -19,15 +19,20 @@ Botkaplus Library for rubika bots.
 
 ```php
 // شامل کردن فایل‌های کتابخانه
-composer require sinyor-ehsan/botkaplus:dev-main
+composer require sinyor-ehsan/botkaplus
 ```
 
 # شروع
 
 ```php
-require "BotClient.php";
+<?php
 
-$token = "token bot";
+require "vendor/autoload.php";
+use Botkaplus\BotClient;
+use Botkaplus\Filters;
+use Botkaplus\Message;
+
+$token = "CCFJC0GBJRAPRTONWIAVSYEZGEZRCJNXPVLUQFAWWMGWUXBAPULSHDIVWCCLIHFM";
 $inData = file_get_contents('php://input');
 $Data = json_decode($inData);
 
@@ -38,6 +43,7 @@ $bot->onMessage(Filters::text("hello"), function(BotClient $bot, Message $messag
         $bot->stopPropagation();
     }
 );
-
 $bot->run();
+
+?>
 ```
