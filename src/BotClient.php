@@ -181,7 +181,7 @@ class BotClient {
             }
 
             foreach ($response->data->updates as $update) {
-                // بررسی زمان پیام
+                
                 $time = null;
                 if (isset($update->new_message->time)) {
                     $time = $update->new_message->time;
@@ -542,3 +542,4 @@ class BotClient {
         return curl_exec($ch);
     }
 }
+
