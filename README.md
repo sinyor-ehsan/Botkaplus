@@ -32,7 +32,7 @@ use Botkaplus\BotClient;
 use Botkaplus\Filters;
 use Botkaplus\Message;
 
-$token = "CCFJC0GBJRAPRTONWIAVSYEZGEZRCJNXPVLUQFAWWMGWUXBAPULSHDIVWCCLIHFM";
+$token = "token_bot";
 $inData = file_get_contents('php://input');
 $Data = json_decode($inData);
 
