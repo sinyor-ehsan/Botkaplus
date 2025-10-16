@@ -46,13 +46,12 @@ class BotClient {
     private $handlers = [];
 
     // سازنده کلاس
-    public function __construct($token, $rData, $url_webhook = null) {
+    public function __construct($token, $rData = null, $url_webhook = null) {
         $this->token = $token;
         $this->rData = $rData;
         $this->url_webhook = $url_webhook;
         if ($url_webhook !== null) {$this->set_Webhook($url_webhook);}
-        $this->get_rData($rData);
-        
+        if ($rData !== null) {$this->get_rData($rData);}
     }
 
     // استخراج داده‌ها از ورودی
@@ -136,26 +135,92 @@ class BotClient {
         ];
     }
 
-    // اجرای هندلرها
-    public function run() {
+    private function dispatchHandlers() {
         foreach ($this->handlers as $handler) {
-
             $filter = $handler['filter'];
             $type   = $handler['type'] ?? 'message';
+
             if ($type === 'message' && $this->new_message) {
                 if ($filter === null || $filter->match($this->message)) {
                     call_user_func($handler['callback'], $this, $this->message_wrapper);
                     if ($this->propagationStopped) break;
                 }
-            }else if($type === 'inline' && $this->inline_message) {
+            } else if ($type === 'inline' && $this->inline_message) {
                 if ($filter === null || $filter->match($this->inline_message)) {
                     call_user_func($handler['callback'], $this, $this->message_wrapper);
                     if ($this->propagationStopped) break;
                 }
-            }else if($type === 'updated' && $this->updated_message) {
+            } else if ($type === 'updated' && $this->updated_message) {
                 if ($filter === null || $filter->match($this->inline_message)) {
                     call_user_func($handler['callback'], $this, $this->message_wrapper);
                     if ($this->propagationStopped) break;
+                }
+            }
+        }
+    }
+
+    // // اجرای هندلرها
+    // public function run() {
+    //     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $this->dispatchHandlers(); // ✅ اجرای هندلرها
+    //     }else{
+    //         $offset_id = null;
+
+    //         while (true) {
+    //             $params = ['limit' => 100];
+    //             if ($offset_id) {
+    //                 $params['offset_id'] = $offset_id;
+    //             }
+
+    //             $response = json_decode($this->bot("getUpdates", $params));
+    //             if (empty($response->data->updates)) {
+    //                 sleep(2);
+    //                 continue;
+    //             }
+
+    //             if (isset($response->data->next_offset_id)) {
+    //                 $offset_id = $response->data->next_offset_id;
+    //             }
+
+    //             foreach ($response->data->updates as $update) {
+    //                 $this->rData = (object)['update' => $update];
+    //                 $this->get_rData($this->rData);
+    //                 $this->dispatchHandlers(); // ✅ اجرای هندلرها
+    //                 sleep(0.5);
+    //             }
+    //         }
+    //     }
+    // }
+
+    public function run() {
+        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->dispatchHandlers(); // ✅ اجرای هندلرها در حالت webhook
+        } else {
+            $offset_id = null;
+
+            while (true) {
+                $params = ['limit' => 100];
+                if ($offset_id) {
+                    $params['offset_id'] = $offset_id;
+                }
+
+                $response = json_decode($this->bot("getUpdates", $params));
+
+                if (empty($response->data->updates)) {
+                    sleep(2);
+                    continue;
+                }
+
+                foreach ($response->data->updates as $update) {
+                    $this->rData = (object)['update' => $update];
+                    $this->get_rData($this->rData);
+                    $this->dispatchHandlers(); // ✅ اجرای هندلرها برای هر آپدیت
+                    sleep(0.5);
+                }
+
+                // ✅ به‌روزرسانی offset بعد از پردازش همه‌ی آپدیت‌ها
+                if (isset($response->data->next_offset_id)) {
+                    $offset_id = $response->data->next_offset_id;
                 }
             }
         }
@@ -477,7 +542,7 @@ class BotClient {
     }
 
     // ارسال درخواست به API روبیکا
-    private function bot($method, $data = []) {
+    public function bot($method, $data = []) {
         $url = "https://botapi.rubika.ir/v3/" . $this->token . "/" . $method;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -486,7 +551,4 @@ class BotClient {
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         return curl_exec($ch);
     }
-
 }
-
-
