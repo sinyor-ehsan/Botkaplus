@@ -13,6 +13,7 @@ class BotClient {
 
     private $token;
     private $rData;
+    private $url_webhook;
     private $propagationStopped = false;
 
     // پیام خام دریافتی از روبیکا
@@ -45,9 +46,10 @@ class BotClient {
     private $handlers = [];
 
     // سازنده کلاس
-    public function __construct($token, $rData) {
+    public function __construct($token, $rData, $url_webhook = null) {
         $this->token = $token;
         $this->rData = $rData;
+        if ($url_webhook !== null) {$this->set_Webhook($url_webhook);}
         $this->get_rData($rData);
         
     }
@@ -88,6 +90,24 @@ class BotClient {
             $this->location             = $this->inline_message->location ?? null;
         }
 
+    }
+
+    public function set_Webhook($url_webhook) {
+        echo "🚀 شروع تنظیم endpoint‌های بات Rubika\n";
+        $endpoints = [
+            "ReceiveUpdate",
+            "ReceiveInlineMessage",
+            "ReceiveQuery",
+            "GetSelectionItem",
+            "SearchSelectionItems"
+        ];
+        foreach ($endpoints as $endpoint) {
+            $data = [
+                "url" => $url_webhook,
+                "type" => $endpoint
+            ];
+            $this->bot("updateBotEndpoints", $data);
+        }
     }
 
     // ثبت هندلر
@@ -467,3 +487,4 @@ class BotClient {
     }
 
 }
+
