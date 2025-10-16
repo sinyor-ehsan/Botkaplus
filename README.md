@@ -70,3 +70,21 @@ $bot->run();
 
 ?>
 ```
+
+# ارسال اینلاین کیبورد
+```php
+$keypad = new KeypadInline();
+
+    // ردیف اول
+$keypad->addRow([
+  KeypadInline::simpleButton("100", "test")
+]);
+
+    // ردیف دوم
+$keypad->addRow([
+  KeypadInline::simpleButton("101", "test 2"),
+  KeypadInline::simpleButton("101", "test 3")
+]);
+
+$inline_keypad = $keypad->build();
+```
