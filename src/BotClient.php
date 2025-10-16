@@ -2,6 +2,11 @@
 
 namespace Botkaplus;
 
+require_once 'Message/Message.php';
+require_once 'Filters/Filters.php';
+require_once 'Keypad/KeypadChat.php';
+require_once 'Keypad/KeypadInline.php';
+
 use Botkaplus\Message;
 
 class BotClient {
@@ -460,4 +465,5 @@ class BotClient {
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
         return curl_exec($ch);
     }
+
 }
