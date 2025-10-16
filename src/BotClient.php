@@ -49,6 +49,7 @@ class BotClient {
     public function __construct($token, $rData, $url_webhook = null) {
         $this->token = $token;
         $this->rData = $rData;
+        $this->url_webhook = $url_webhook;
         if ($url_webhook !== null) {$this->set_Webhook($url_webhook);}
         $this->get_rData($rData);
         
@@ -487,4 +488,5 @@ class BotClient {
     }
 
 }
+
 
