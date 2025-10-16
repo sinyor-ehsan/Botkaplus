@@ -32,6 +32,30 @@ use Botkaplus\Filters;
 use Botkaplus\Message;
 
 $token = "token_bot";
+
+$bot = new BotClient($token);
+
+$bot->onMessage(Filters::text("hello"), function(BotClient $bot, Message $message) {
+        $message->reply_Message("hello from Botkaplus!");
+        $bot->stopPropagation();
+    }
+);
+$bot->runPolling();
+
+?>
+```
+
+# شروع با webHook
+
+```php
+<?php
+
+require "vendor/autoload.php";
+use Botkaplus\BotClient;
+use Botkaplus\Filters;
+use Botkaplus\Message;
+
+$token = "token_bot";
 $inData = file_get_contents('php://input');
 $Data = json_decode($inData);
 
