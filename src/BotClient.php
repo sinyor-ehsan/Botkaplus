@@ -8,6 +8,7 @@ require_once 'Keypad/KeypadChat.php';
 require_once 'Keypad/KeypadInline.php';
 
 use Botkaplus\Message;
+use Exception;
 
 class BotClient {
 
@@ -93,7 +94,7 @@ class BotClient {
     }
 
     public function set_Webhook($url_webhook) {
-        echo "🚀 شروع تنظیم endpoint‌های بات Rubika\n";
+        echo "fix endpoint Rubika\n";
         $endpoints = [
             "ReceiveUpdate",
             "ReceiveInlineMessage",
@@ -106,7 +107,7 @@ class BotClient {
                 "url" => $url_webhook,
                 "type" => $endpoint
             ];
-            $this->bot("updateBotEndpoints", $data);
+            return $this->bot("updateBotEndpoints", $data);
         }
     }
 
@@ -160,35 +161,47 @@ class BotClient {
     }
 
     public function run() {
-        if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $this->dispatchHandlers(); // ✅ اجرای هندلرها در حالت webhook
-        } else {
-            $offset_id = null;
+        $this->dispatchHandlers(); // ✅ اجرای هندلرها در حالت webhook
+    }
 
-            while (true) {
-                $params = ['limit' => 100];
-                if ($offset_id) {
-                    $params['offset_id'] = $offset_id;
+    public function runPolling() {
+        $offset_id = null;
+
+        while (true) {
+            $data_send = ['limit' => 100];
+            if ($offset_id) {
+                $data_send['offset_id'] = $offset_id;
+            }
+
+            $response = json_decode($this->bot("getUpdates", $data_send));
+
+            if (empty($response->data->updates)) {
+                sleep(2);
+                continue;
+            }
+
+            foreach ($response->data->updates as $update) {
+                // بررسی زمان پیام
+                $time = null;
+                if (isset($update->new_message->time)) {
+                    $time = $update->new_message->time;
+                } elseif (isset($update->updated_message->time)) {
+                    $time = $update->updated_message->time;
                 }
 
-                $response = json_decode($this->bot("getUpdates", $params));
-
-                if (empty($response->data->updates)) {
-                    sleep(2);
+                if ($this->has_time_passed($time, 5)) {
                     continue;
                 }
 
-                foreach ($response->data->updates as $update) {
-                    $this->rData = (object)['update' => $update];
-                    $this->get_rData($this->rData);
-                    $this->dispatchHandlers(); // ✅ اجرای هندلرها برای هر آپدیت
-                    sleep(0.5);
-                }
+                $this->rData = (object)['update' => $update];
+                $this->get_rData($this->rData);
+                $this->dispatchHandlers();
+                sleep(0.5);
+            }
 
-                // ✅ به‌روزرسانی offset بعد از پردازش همه‌ی آپدیت‌ها
-                if (isset($response->data->next_offset_id)) {
-                    $offset_id = $response->data->next_offset_id;
-                }
+            // به‌روزرسانی offset برای دور بعدی
+            if (isset($response->data->next_offset_id)) {
+                $offset_id = $response->data->next_offset_id;
             }
         }
     }
@@ -249,6 +262,16 @@ class BotClient {
             $data_send["chat_keypad_type"] = $chat_keypad_type;
         }
         return $this->bot("sendLocation", $data_send);
+    }
+
+    function has_time_passed($last_time, $seconds = 5) {
+        try {
+            $timestamp = (int) floatval($last_time);
+            $now = time();
+            return ($now - $timestamp) > $seconds;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     public function send_Contact($chat_id, $first_name, $last_name, $phone_number, $inline_keypad = null, $chat_keypad = null, $chat_keypad_type = "New", $reply_to_message = null){
@@ -509,7 +532,7 @@ class BotClient {
     }
 
     // ارسال درخواست به API روبیکا
-    public function bot($method, $data = []) {
+    private function bot($method, $data = []) {
         $url = "https://botapi.rubika.ir/v3/" . $this->token . "/" . $method;
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -519,4 +542,3 @@ class BotClient {
         return curl_exec($ch);
     }
 }
-
