@@ -159,39 +159,6 @@ class BotClient {
         }
     }
 
-    // // اجرای هندلرها
-    // public function run() {
-    //     if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-    //         $this->dispatchHandlers(); // ✅ اجرای هندلرها
-    //     }else{
-    //         $offset_id = null;
-
-    //         while (true) {
-    //             $params = ['limit' => 100];
-    //             if ($offset_id) {
-    //                 $params['offset_id'] = $offset_id;
-    //             }
-
-    //             $response = json_decode($this->bot("getUpdates", $params));
-    //             if (empty($response->data->updates)) {
-    //                 sleep(2);
-    //                 continue;
-    //             }
-
-    //             if (isset($response->data->next_offset_id)) {
-    //                 $offset_id = $response->data->next_offset_id;
-    //             }
-
-    //             foreach ($response->data->updates as $update) {
-    //                 $this->rData = (object)['update' => $update];
-    //                 $this->get_rData($this->rData);
-    //                 $this->dispatchHandlers(); // ✅ اجرای هندلرها
-    //                 sleep(0.5);
-    //             }
-    //         }
-    //     }
-    // }
-
     public function run() {
         if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->dispatchHandlers(); // ✅ اجرای هندلرها در حالت webhook
@@ -552,3 +519,4 @@ class BotClient {
         return curl_exec($ch);
     }
 }
+
