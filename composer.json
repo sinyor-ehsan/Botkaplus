@@ -3,7 +3,7 @@
     "description": "Botkaplus Library for rubika bots",
     "version": "0.0.4",
     "type": "library",
-    "keywords": ["rubika", "bot", "api", "php", "rubikabot"],
+    "keywords": ["rubika", "bot", "api", "php", "botkaplus", "rubikabot"],
     "homepage": "https://github.com/sinyor-ehsan/Botkaplus",
     "license": "MIT",
     "authors": [
@@ -26,6 +26,7 @@
     },
     "minimum-stability": "stable"
 }
+
 
 
 
