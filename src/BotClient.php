@@ -81,7 +81,7 @@ class BotClient {
             $this->timee                = $this->updated_message->time ?? null;
             $this->is_edited            = $this->updated_message->is_edited ?? true;
             $this->sender_type          = $this->updated_message->sender_type ?? null;
-            $this->sender_id            = $this->new_message->sender_id ?? null;
+            $this->sender_id            = $this->updated_message->sender_id ?? null;
         }else if ($this->inline_message) { // پیام اینلاین
             $this->text                 = $this->inline_message->text ?? null;
             $this->chat_id              = $this->inline_message->chat_id ?? null;
@@ -136,7 +136,7 @@ class BotClient {
         ];
     }
 
-    private function dispatchHandlers() {
+    public function run() { // ✅ اجرای هندلرها در حالت webhook
         foreach ($this->handlers as $handler) {
             $filter = $handler['filter'];
             $type   = $handler['type'] ?? 'message';
@@ -158,10 +158,6 @@ class BotClient {
                 }
             }
         }
-    }
-
-    public function run() {
-        $this->dispatchHandlers(); // ✅ اجرای هندلرها در حالت webhook
     }
 
     public function runPolling() {
@@ -195,7 +191,7 @@ class BotClient {
 
                 $this->rData = (object)['update' => $update];
                 $this->get_rData($this->rData);
-                $this->dispatchHandlers();
+                $this->run();
                 sleep(0.5);
             }
 
