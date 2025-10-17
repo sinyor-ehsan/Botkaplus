@@ -141,3 +141,7 @@ Filters::or(...)
 Filters::and(...)
 Filters::not(...)
 ```
+# تنظیم کامندها
+```php
+$bot->set_Commands([["command" => "start", "description" => "شروع ربات"], ["command" => "help", "description" => "راهنمای ربات"]]);
+```
