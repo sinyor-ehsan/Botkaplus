@@ -15,9 +15,8 @@ Botkaplus Library for rubika bots.
 /// · token rubika bot
 
 # نصب
-
+ نصب کردن فایل‌های کتابخانه
 ```php
-// شامل کردن فایل‌های کتابخانه
 composer require sinyor-ehsan/botkaplus
 ```
 
