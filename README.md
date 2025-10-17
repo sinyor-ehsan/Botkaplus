@@ -115,3 +115,29 @@ $chat_keypad->setOnTimeKeyboard(true);
 $chat_keypad = $chat_keypad->build();
 $message->reply_Message("send chat keypad!", chat_keypad:$chat_keypad);
 ```
+
+# ادامه ندادن به هندلرهای بعدی
+```php
+$bot->stopPropagation()
+```
+
+# فیلتر ترکیبی and
+```php
+$bot->onMessage(Filters::and(Filters::private(), Filters::command("start")), function(BotClient $bot, Message $message){
+    $message->reply_Message("hello from Botkaplus to pv!");
+});
+```
+# انواع فیلترها
+```php
+Filters::text("")
+Filters::command("")
+Filters::chatId("")
+Filters::senderId("")
+Filters::buttonId("")
+Filters::private()
+Filters::group()
+Filters::channel()
+Filters::or(...)
+Filters::and(...)
+Filters::not(...)
+```
