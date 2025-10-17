@@ -23,11 +23,16 @@ class Message {
     private $aux_data;
     private $location;
 
+    // فیلدهای پیام ویرایش شده
+    public $updated_message;
+    public $text_edit;
+
     public function __construct(BotClient $bot, $rData) {
         $this->bot = $bot;
         $this->message              = $rData->update ?? null;
         $this->new_message          = $this->message->new_message ?? null;
         $this->inline_message       = $rData->inline_message ?? null;
+        $this->updated_message      = $this->message->updated_message ?? null;
 
         // پیام معمولی
         if (isset($this->message->type) && $this->new_message) {
@@ -39,6 +44,14 @@ class Message {
             $this->message_id           = $this->new_message->message_id ?? null;
             $this->is_edited            = $this->new_message->is_edited ?? false;
             $this->reply_to_message_id  = $this->new_message->reply_to_message_id ?? null;
+        }else if (isset($this->message->type) && $this->message->type ?? "null" === "UpdatedMessage") { // پیام ویرایش شده
+            $this->chat_id              = $this->message->chat_id ?? null;
+            $this->message_id           = $this->updated_message->message_id ?? null;
+            $this->text_edit            = $this->updated_message->text ?? null;
+            $this->timee                = $this->updated_message->time ?? null;
+            $this->is_edited            = $this->updated_message->is_edited ?? true;
+            $this->sender_type          = $this->updated_message->sender_type ?? null;
+            $this->sender_id            = $this->updated_message->sender_id ?? null;
         }else if ($this->inline_message) { // پیام اینلاین
             $this->text                 = $this->inline_message->text ?? null;
             $this->chat_id              = $this->inline_message->chat_id ?? null;
