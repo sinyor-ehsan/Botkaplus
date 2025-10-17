@@ -11,8 +11,8 @@ Botkaplus Library for rubika bots.
 پیش نیاز
 
 · PHP 7.4 or higher
-· curl enable
-· token rubika bot
+/// · curl enable
+/// · token rubika bot
 
 # نصب
 
