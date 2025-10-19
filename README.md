@@ -36,7 +36,6 @@ $bot = new BotClient($token);
 
 $bot->onMessage(null, function(BotClient $bot, Message $message) {
         $message->reply_Message("hello from Botkaplus!");
-        $bot->stopPropagation();
     }
 );
 $bot->runPolling();
@@ -62,7 +61,6 @@ $bot = new BotClient($token, $Data);
 
 $bot->onMessage(Filters::text("hello"), function(BotClient $bot, Message $message) {
         $message->reply_Message("hello from Botkaplus!");
-        $bot->stopPropagation();
     }
 );
 $bot->run();
