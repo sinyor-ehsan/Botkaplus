@@ -20,6 +20,30 @@ class Filters {
         };
     }
 
+    public static function regex($pattern = null) {
+        return new class($pattern) {
+            private $pattern;
+
+            public function __construct($pattern) {
+                $this->pattern = $pattern;
+            }
+
+            public function match($message) {
+                if (!isset($message->new_message?->text)) return false;
+
+                $text = trim($message->new_message->text);
+
+                // اگر الگو خالی یا null باشد، همیشه true برمی‌گرداند
+                if ($this->pattern === null || $this->pattern === '') {
+                    return true;
+                }
+
+                // بررسی تطابق با regex
+                return preg_match('/' . $this->pattern . '/u', $text) === 1;
+            }
+        };
+    }
+
     public static function command($expectedCommand = null) {
         return new class($expectedCommand) {
             private $expectedCommand;
@@ -176,5 +200,6 @@ class Filters {
             }
         };
     }
+
 
 }
